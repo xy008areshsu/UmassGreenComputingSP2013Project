@@ -1,0 +1,3 @@
+%% Constant parameters initialization
+C = 30;  %in kWh
+c = 0.04;   % in d
