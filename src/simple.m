@@ -40,10 +40,13 @@ b(1) = 0;
 b(2) = C;
 
 %% =========================linear equality constraints====================
-Aeq = [];
-beq = [];
+Aeq = zeros(1,3);
+beq = zeros(1,1);
+Aeq(1, 2) = 1;
+Aeq(1, 3) = 1;
+beq(1, 1) = 5;  % To be changed to a reasonable value
 % There should be at least one constraint here, which is p + d = predicted
-% power consumption, using ML
+% power consumption, using ML, 0 * x1 + x2 + x3 = powerPredict
 
 
 
