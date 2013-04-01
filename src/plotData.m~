@@ -17,16 +17,9 @@ hold on;
 plot(hours, d, 'b','LineWidth',2);
 hold on;
 plot(hours, p, 'r','LineWidth',2);
-hold on;
-plot(hours, powerPredict, '-yo',... 
-                          'LineWidth',2,...
-                          'MarkerEdgeColor','k',...
-                          'MarkerFaceColor',[.49 1 .63],...
-                          'MarkerSize',10);
 grid;
 title('Smart Charge Scheduling. ABSURD!!!!!!!!');
 xlabel('Hours')
 ylabel('Power(kWh)')
-legend('Battery Charge', 'Battery Dischage', 'Grid Power Consumption',...
-       'Power Prediction', 'Location', 'SouthOutside');
+legend('Battery Charge', 'Battery Dischage', 'G
     
