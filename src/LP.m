@@ -18,7 +18,7 @@ T = 24;
 % Hard coded power consumption prediction for the following day, 24 hours
 % There should be predicted power consumption for each time interval using
 % ML techniques, which is missing here
-powerPredict = hardCodedPower('./data/2012-Apr-15.csv', T);
+powerPredict = hardCodedPower('./data/2012-Jul-30.csv', T);
 
 % battery charging efficiency
 e = 0.855;  
@@ -94,12 +94,13 @@ clear i;
 
 %% ========================Objective Function(Minimize)===================
 
-% objective function: cost m = sum(p + s - d) * c 
+% objective function: cost m = sum(p + s) * c slightly different from the
+% objective funtion in paper
 m = zeros(3 * T, 1); 
 
 for i = 1 : 24
     m(i) = c(i);
-    m(T + i) = -c(i);
+   % m(T + i) = -c(i);
     m(2 * T + i) = c(i);
 end
 clear i;
@@ -112,4 +113,9 @@ p = reshape(x(2 * T + 1 : 3 * T), T, 1);
 cost = cost / 100;     % convert from cents to dollars
 
 %% =======================Plot Results=====================================
+originalPrice = sum(powerPredict.*c) / 100;
+fprintf('The Electricity Bill without Smart Charge per Day is: $%f\n', originalPrice);
+fprintf('The Electricity Bill with Smart Charge per Day is: $%f\n', cost);
+fprintf('Total cost reduction is: %f%%\n', (originalPrice - cost) / originalPrice * 100);
+
 plotData;
