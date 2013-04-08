@@ -1,4 +1,6 @@
-clear
+function [ power ] = powerPredictTotal( ~ )
+%POWERPREDICTTOTAL Summary of this function goes here
+%   Detailed explanation goes here
 
 list = dir('data');
 list = list(3 : end);
@@ -13,9 +15,10 @@ end
 filenames = char(filenames);
 
 for i = 1 : s
-   power(i, :) = powerProcess(strtrim(filenames(i, :)))';
+    power(i, :) = powerProcess(strtrim(filenames(i, :)))';
 end
-    
+
 power = power';
-        
+
+end
 
