@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- #BeginTemplate "../../Templates/Opti_Normal.dwt" -->
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<!-- #BeginEditable "doctitle" -->
+<title>Title</title>
+<style type="text/css">
+
+
+
+
+
+
+
+.auto-style1 {
+	text-align: right;
+}
+.auto-style2 {
+	text-align: center;
+}
+</style>
+<!-- #EndEditable -->
+<link href="../../Templates/Opti_Styles.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+<!-- #BeginEditable "MainTitle" -->
+
+<p class="Heading1">Binary Integer Linear Program (BILP)</p>
+<!-- #EndEditable -->
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<!-- #BeginEditable "Body" -->
+<p class="Heading2">Introduction</p>
+<p class="Normal">A binary integer linear program has the following form:</p>
+<p class="Normal"><img height="121" src="images/bilp.png" width="207" /></p>
+<p class="Normal">Where <strong>f</strong> is a <em>n </em>x <em>1 </em>vector 
+containing the linear objective function, which is subject to the following 
+constraints:</p>
+<p class="Normal"><span class="Heading3">Linear Inequalities*</span><strong><br />
+A </strong>is a <em>m x n </em>
+sparse matrix, <strong>b</strong> is a <em>m x 1</em> vector</p>
+<p class="Normal"><span class="Heading3">Linear Equalities*</span><br />
+<strong>A</strong><sub>eq</sub> is a <em>k x n</em> sparse matrix, <strong>b</strong><sub>eq</sub>
+is a <em>k x 1 </em>vector</p>
+<p class="Normal"><span class="Heading3">Binary Constraints</span><br />
+All decision variables must be a binary integer (0,1)</p>
+<p class="Normal">The goal is to minimize the objective function by selecting a 
+value of <strong>x</strong> that also satisfies all constraints.</p>
+<p class="Copyright">*Your problem description will either use Linear 
+Inequalties and Linear Equalities OR Linear Row Constraints. See the
+<a href="constraints.html">constraint information page</a>.</p>
+<p class="Heading2">Example Problem<sup>[3]</sup></p>
+<p class="Normal">There are  four possible projects, which each run for 3 years 
+and have the following characteristics:</p>
+<table class="Normal" style="width: 500px">
+	<tr>
+		<td style="height: 25px; width: 88px">&nbsp;</td>
+		<td style="height: 25px; width: 115px"></td>
+		<td style="height: 25px; width: 46px"></td>
+		<td class="auto-style2" colspan="3" style="height: 25px">Capital 
+		Requirements ($m)</td>
+	</tr>
+	<tr>
+		<td style="width: 88px">Project</td>
+		<td style="width: 115px">Return ($m)</td>
+		<td style="width: 46px">Year</td>
+		<td style="width: 40px">1</td>
+		<td style="width: 40px">2</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<td style="width: 88px">1</td>
+		<td style="width: 115px">0.2</td>
+		<td style="width: 46px">&nbsp;</td>
+		<td style="width: 40px">0.5</td>
+		<td style="width: 40px">0.3</td>
+		<td>0.2</td>
+	</tr>
+	<tr>
+		<td style="width: 88px">2</td>
+		<td style="width: 115px">0.3</td>
+		<td style="width: 46px">&nbsp;</td>
+		<td style="width: 40px">1.0</td>
+		<td style="width: 40px">0.8</td>
+		<td>0.2</td>
+	</tr>
+	<tr>
+		<td style="width: 88px">3</td>
+		<td style="width: 115px">0.5</td>
+		<td style="width: 46px">&nbsp;</td>
+		<td style="width: 40px">1.5</td>
+		<td style="width: 40px">1.5</td>
+		<td>0.3</td>
+	</tr>
+	<tr>
+		<td style="width: 88px">4</td>
+		<td style="width: 115px">0.1</td>
+		<td style="width: 46px">&nbsp;</td>
+		<td style="width: 40px">0.1</td>
+		<td style="width: 40px">0.4</td>
+		<td>0.1</td>
+	</tr>
+	<tr>
+		<td class="auto-style1" colspan="3">Available Capital ($m)&nbsp; </td>
+		<td style="width: 40px">3.1</td>
+		<td style="width: 40px">2.5</td>
+		<td>0.4</td>
+	</tr>
+</table>
+<p class="Normal">The objective is to decide which projects to run in order to 
+maximise the total return. Write the equations for this problem assuming the following 
+decision 
+variable name strategy:</p>
+<p class="Normal">If x<sub>1</sub> is 1, then run project 1, otherwise do not run it. 
+Subscripts indicate each project.</p>
+<p class="Normal">The objective function is to maximize the return, thus we 
+negate our objective:</p>
+<p class="Normal"><img height="34" src="images/bilp_ex1.png" width="353" /></p>
+<p class="Normal">And the capital constraints are:</p>
+<p class="Normal"><img height="93" src="images/bilp_ex1b.png" width="313" /></p>
+<p class="Normal">The objective and constraints can now be written in standard 
+form:</p>
+<p class="Normal"><img src="images/bilp_ex1c.png" /></p>
+<p class="Normal">This can be solved using the OPTI Toolbox as follows:</p>
+<p class="CodeIndent">
+<span class="Comment">% Objective</span><br />
+f = -[0.2;0.3;0.5;0.1];<br />
+<span class="Comment">% Constraints</span><br />
+A = [0.5 1.0 1.5 0.1;<br />
+0.3 0.8 1.5 0.4;<br />
+0.2 0.2 0.3 0.1];<br />
+b = [3.1;2.5;0.4];<br />
+int = <span class="String">'BBBB'</span>;<br />
+</p>
+<p class="CodeIndent">
+<span class="Comment">% Build OPTI Problem</span><br />
+Opt = opti(<span class="String">'f'</span>,f,<span class="String">'ineq'</span>,A,b,<span class="String">'int'</span>,int)</p>
+<p class="CodeIndent">
+<span class="Comment">% Solve<br />
+</span>x = solve(Opt)</p>
+<p class="Normal">And the solution is:</p>
+<p class="CodeIndent">
+x =<br />
+<br />
+0<br />
+0<br />
+1<br />
+1</p>
+<p class="Normal">Indicating the optimal solution is to run projects 3 and 4.</p>
+<p class="Heading2">Considerations</p>
+<p class="Normal">BILP problems must only have binary integer decision 
+variables, normal integer or continuous variables are not allowed. For problems 
+with integer or continuous variables use an <a href="milp.html">MILP</a> 
+instead. Note also while bounds are strictly allowable in a BILP, they are not 
+used as they are effectively redundant based on the binary integer constraint, 
+provided legal bounds are entered. OPTI Toolbox will automatically ignore any 
+bounds entered.</p>
+
+<!-- #EndEditable -->
+
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<p class="Copyright">Copyright © 2011-2013 Jonathan Currie (I<sup>2</sup>C<sup>2</sup>) </p>
+
+</body>
+<!-- #EndTemplate -->
+</html>

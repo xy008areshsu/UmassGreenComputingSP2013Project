@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- #BeginTemplate "../../Templates/Opti_Normal.dwt" -->
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<!-- #BeginEditable "doctitle" -->
+<title>MOSEK Installation Guide</title>
+<!-- #EndEditable -->
+<link href="../../Templates/Opti_Styles.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+<!-- #BeginEditable "MainTitle" -->
+
+<p class="Heading1">MOSEK Installation Guide</p>
+<!-- #EndEditable -->
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<!-- #BeginEditable "Body" -->
+<p class="Normal"><a href="http://www.mosek.com/">MOSEK</a> is a powerful linear 
+and quadratic solver with facilities for discrete variables, quadratic 
+constraints, and separable nonlinear functions. This guide was written for MOSEK 
+6.0.0.135.</p>
+<p class="Heading3">Obtaining MOSEK</p>
+<p class="NormalIndent">1) Visit the
+<a href="http://license.mosek.com/cgi-bin/student.py">MOSEK Academic License 
+Request</a> page and complete your details. The license will be emailed to you.<br />
+2) Visit the <a href="http://mosek.com/resources/download/">MOSEK Download</a> 
+page and download the required installer.</p>
+<p class="Heading3">Installing MOSEK</p>
+<p class="NormalIndent">3) Launch the MOSEK installer package from your download 
+location and complete the installation. As with other solvers, I typically 
+install to the default location. MOSEK requires a restart after installation.<br />
+4) Generate a 'mosek.lic' file with the text copied from your MOSEK license 
+email. I used notepad++ for this task. Copy your mosek.lic file into the 
+'licenses' directory of your MOSEK installation. On my PC this was:</p>
+<p class="NormalIndent">C:\Program Files\Mosek\6\licenses</p>
+<p class="Heading3">Interfacing to OPTI Toolbox</p>
+<p class="NormalIndent">5) MOSEK is supplied with a MATLAB Toolbox (2009b) 
+however if you use it you will break the MATLAB Optimization Toolbox. <strong>
+Therefore</strong> <strong>do not add the MOSEK MATLAB Toolbox to the MATLAB 
+path! If you have already done so, remove it! </strong>Instead we only require 
+one file from this, and the rest I have re-written for use in OPTI. Copy 
+'mosekopt.mexw64' (or .mexw32) from the MOSEK toolbox, e.g.:</p>
+<p class="NormalIndent">C:\Program Files\Mosek\6\toolbox\r2009b</p>
+<p class="NormalIndent">And paste into the MOSEK folder of your OPTI 
+Installation, e.g.:</p>
+<p class="NormalIndent">OptiToolbox_edu_v1.33\Solvers\mosek</p>
+<p class="NormalIndent">Type the following to test it is working:</p>
+<p class="CodeIndent">&gt;&gt; mosekopt</p>
+<!-- #EndEditable -->
+
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<p class="Copyright">Copyright © 2011-2013 Jonathan Currie (I<sup>2</sup>C<sup>2</sup>) </p>
+
+</body>
+<!-- #EndTemplate -->
+</html>

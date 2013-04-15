@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- #BeginTemplate "../../Templates/Opti_Normal.dwt" -->
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<!-- #BeginEditable "doctitle" -->
+<title>System of Linear Equations</title>
+<!-- #EndEditable -->
+<link href="../../Templates/Opti_Styles.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+<!-- #BeginEditable "MainTitle" -->
+
+<p class="Heading1">System of Linear Equations (SLE)</p>
+<!-- #EndEditable -->
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<!-- #BeginEditable "Body" -->
+<p class="Heading2">Introduction</p>
+<p class="Normal">A system of linear equations has the following form:</p>
+<p class="Normal"><img src="images/sle.png" alt="slepic"/></p>
+<p class="Normal">Where <strong>A</strong> is a <em>m x n</em> sparse matrix,
+<strong>b</strong> is a <em>n x 1</em> dense vector, and we are solving 
+for the <em>n x 1</em> vector <strong>x</strong>.</p>
+<p class="Heading2">Example Problem<sup>[2]</sup></p>
+<p class="Normal">The admission fee at a small fair is $1.50 for children and 
+$4.00 for adults. On a certain day 2200 people enter the fair and $5050.00 is 
+collected. How many children and how many adults attended?</p>
+<p class="Normal">Write as a system of linear equations, assuming <em>a </em>is 
+the number of adults, and <em>c </em>is the number of children:</p>
+<p class="Normal"><img height="60" src="images/sle_ex1a.png" width="157" /></p>
+<p class="Normal">Now convert to standard form:</p>
+<p class="Normal"><img height="66" src="images/sle_ex1b.png" width="202" /></p>
+<p class="Normal">This can be solved using the OPTI Toolbox as follows:</p>
+<p class="CodeIndent">
+A = [1 1; 4 1.5];<br />
+b = [2200; 5050];<br />
+</p>
+<p class="CodeIndent">
+<span class="Comment">% Build OPTI Problem</span><br />
+Opt = opti(<span class="String">'sle'</span>,A,b)</p>
+<p class="CodeIndent">
+<span class="Comment">% Solve<br />
+</span>x = solve(Opt)</p>
+<p class="Normal">
+And the solution is:</p>
+<p class="CodeIndent">
+x =<br />
+<br />
+700<br />
+1500</p>
+<p class="Heading2">Considerations</p>
+<p class="Normal">This problem is typically solved in Matlab using matrix left 
+divide ( \ ), however you may also want to solve this problem using one of the 
+supplied OPTI solvers, for example MUMPS. </p>
+<p class="Normal">Normally your system of equations will be large and sparse (<strong>A
+</strong>matrix), with many thousand of non-zero entries.</p>
+<!-- #EndEditable -->
+
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<p class="Copyright">Copyright © 2011-2013 Jonathan Currie (I<sup>2</sup>C<sup>2</sup>) </p>
+
+</body>
+<!-- #EndTemplate -->
+</html>

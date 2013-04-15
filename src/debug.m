@@ -13,7 +13,7 @@ end
 filenames = char(filenames);
 
 for i = 1 : s
-   power(i, :) = powerProcess(strtrim(filenames(i, :)))';
+   power(i, :) = powerPreProcess(strtrim(filenames(i, :)))';
 end
     
 power = power';

@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- #BeginTemplate "../../Templates/Opti_Normal.dwt" -->
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<!-- #BeginEditable "doctitle" -->
+<title>Quadratic Program</title>
+<style type="text/css">
+
+
+
+
+
+
+
+.auto-style1 {
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	text-align: left;
+}
+</style>
+<!-- #EndEditable -->
+<link href="../../Templates/Opti_Styles.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+<!-- #BeginEditable "MainTitle" -->
+
+<p class="Heading1">Quadratic Program (QP)</p>
+<!-- #EndEditable -->
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<!-- #BeginEditable "Body" -->
+<p class="Heading2">Introduction</p>
+<p class="Normal">A quadratic program has the following form:</p>
+<p class="Normal">
+<img alt="qpeq" src="images/qp.png" /></p>
+<p class="Normal">Where<strong> H</strong> is a<em> n x n</em> sparse matrix 
+(quadratic and bilinear terms) and<strong> f</strong> is a <em>n </em>x <em>1 </em>vector 
+(linear terms) containing the quadratic objective function, which is subject to the following 
+linear 
+constraints:</p>
+<p class="Normal"><span class="Heading3">Linear Inequalities*</span><strong><br />
+A </strong>is a <em>m x n </em>
+sparse matrix, <strong>b</strong> is a <em>m x 1</em> vector</p>
+<p class="Normal"><span class="Heading3">Linear Equalities*</span><br />
+<strong>A</strong><sub>eq</sub> is a <em>k x n</em> sparse matrix, <strong>b</strong><sub>eq</sub>
+is a <em>k x 1 </em>vector</p>
+<p class="auto-style1"><span class="Heading3">Decision Variable Bounds</span><br />
+<strong>l</strong><sub>b</sub> and <strong>u</strong><sub>b</sub> are <em>n x 1</em> vectors, 
+where <em>-inf</em> or <em>inf</em> indicate an unbounded lower or upper bound, respectively</p>
+<p class="Normal">The goal is to minimize the objective function by selecting a 
+value of <strong>x</strong> that also satisfies all constraints.</p>
+<p class="Copyright">*Your problem description will either use Linear 
+Inequalties and Linear Equalities OR Linear Row Constraints. See the
+<a href="constraints.html">constraint information page</a>.</p>
+<p class="Heading2">Example Problem</p>
+<p class="Normal">
+<img alt="qpex1a"  src="images/qp_ex1a.png"/></p>
+<p class="Normal">From the above problem description we can write the problem in 
+standard form:</p>
+<p class="Normal">
+<img alt="qpex1b" src="images/qp_ex1b.png" /></p>
+<p class="Normal">This can be solved using the OPTI Toolbox as follows:</p>
+<p class="CodeIndent">
+<span class="Comment">% Objective</span><br />
+H = [1 -1; -1 2];<br />
+f = -[2 6]&#39;;<br />
+<span class="Comment">% Constraints</span><br />
+A = [1 1; -1 2; 2 1];<br />
+b = [2; 2; 3];<br />
+lb = [0;0];</p>
+<p class="CodeIndent">
+<span class="Comment">% Build OPTI Problem</span><br />
+Opt = opti(<span class="String">&#39;qp&#39;</span>,H,f,<span class="String">&#39;ineq&#39;</span>,A,b,<span class="String">&#39;lb&#39;</span>,lb)</p>
+<p class="CodeIndent">
+<span class="Comment">% Solve<br />
+</span>x = solve(Opt)</p>
+<p class="Normal">And the solution is:</p>
+<p class="CodeIndent">
+x =<br />
+<br />
+0.6667<br />
+1.3333</p>
+<p class="Normal">To better visualize the solution, this can be plotted as 
+follows:</p>
+<p class="CodeIndent">plot(Opt)</p>
+<p class="Normal">
+<img height="420" src="images/qp_plot.png" width="561" /></p>
+<p class="Heading2">Considerations</p>
+<p class="Normal">Some QP solvers will only solve a convex QP, that is one where 
+the <strong>H</strong> matrix is positive definite (all eigenvalues &gt; 0). A 
+further constraint is some solvers will also expect a symmetric positive 
+definite <strong>H</strong>. This can be enforced by a solver by requesting only 
+the lower triangular section of <strong>H</strong>, and it checks for non zero 
+entries above the diagonal. The reason for this is that a positive definite
+<strong>H</strong> ensures the solution is convex, where there is only one 
+minimum. A non-convex problem may have multiple local minima, and thus the 
+solver may not be setup for this type of problem.</p>
+<p class="Normal">See the section <a href="../Misc/config.html">Solver Configuration</a> for more details.</p>
+<!-- #EndEditable -->
+
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<p class="Copyright">Copyright © 2011-2013 Jonathan Currie (I<sup>2</sup>C<sup>2</sup>) </p>
+
+</body>
+<!-- #EndTemplate -->
+</html>

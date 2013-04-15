@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- #BeginTemplate "../../Templates/Opti_Normal.dwt" -->
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<!-- #BeginEditable "doctitle" -->
+<title>Nonlinear Least Squares</title>
+<style type="text/css">
+
+
+
+
+
+
+
+.auto-style1 {
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	text-align: left;
+}
+</style>
+<!-- #EndEditable -->
+<link href="../../Templates/Opti_Styles.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+<!-- #BeginEditable "MainTitle" -->
+
+<p class="Heading1">Nonlinear Least Squares (NLS)</p>
+<!-- #EndEditable -->
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<!-- #BeginEditable "Body" -->
+<p class="Heading2">Introduction</p>
+<p class="Normal">A nonlinear least squares problem has the following form:</p>
+<p class="Normal"><img src="images/nls.png"  /></p>
+<p class="Normal">Where <em>f</em> is a function 
+containing the nonlinear objective function, which is subject to the following 
+constraints:</p>
+<p class="Normal"><span class="Heading3">Linear Inequalities</span><strong><br />
+A </strong>is a <em>m x n </em>
+sparse matrix, <strong>b</strong> is a <em>m x 1</em> vector</p>
+<p class="Normal"><span class="Heading3">Linear Equalities</span><br />
+<strong>A</strong><sub>eq</sub> is a <em>k x n</em> sparse matrix, <strong>b</strong><sub>eq</sub>
+is a <em>k x 1 </em>vector</p>
+<p class="auto-style1"><span class="Heading3">Decision Variable Bounds</span><br />
+<strong>l</strong><sub>b</sub> and <strong>u</strong><sub>b</sub> are <em>n x 1</em> vectors, 
+where <em>-inf</em> or <em>inf</em> indicate an unbounded lower or upper bound, respectively</p>
+<p class="Normal">The goal is to minimize the objective function by selecting a 
+value of <strong>x</strong> that also satisfies all constraints. Note this 
+problem can also be written as a curve fitting problem using the following, 
+functionally equivalent, objective function:</p>
+<p class="Normal"><img height="50" src="images/nls2.png" width="297" /></p>
+<p class="Heading2">Example Problem</p>
+<p class="Normal">The below function has been chosen to fit to a series of 
+points in the below example (xdata, ydata). The problem is to obtain the 
+coefficients 
+x<sub>1</sub> and x<sub>2</sub> such as to minimize the sum of least squares objective.</p>
+<p class="Normal"><img src="images/nls_ex.png" /></p>
+<p class="Normal">The fitting function can be written as a Matlab anonymous 
+function suitable for use with OPTI:</p>
+<p class="CodeIndent"><span class="Comment">% Function to Fit</span><br />
+fun = @(x,xdata) x(1)*exp(x(2)*xdata);</p>
+<p class="CodeIndent"><span class="Comment">% Fitting Data</span><br />
+xdata = [0.9 1.5 13.8 19.8 24.1 28.2 35.2 60.3 74.6 81.3];<br />
+ydata = [455.2 428.6 124.1 67.3 43.2 28.1 13.1 -0.4 -1.3 -1.5];</p>
+<p class="Normal">This can be solved using the OPTI Toolbox as follows:</p>
+<p class="CodeIndent">
+<span class="Comment">% Build OPTI Problem</span><br />
+Opt = opti(<span class="String">&#39;fun'</span>,fun,<span class="String">'data'</span><span class="Code">,xdata,ydata,</span><span class="String">'ndec'</span>,2)</p>
+<p class="CodeIndent">
+<span class="Comment">% Solve<br />
+</span><span class="Code">x0 = [300;-1];</span><span class="Comment"><br />
+</span>x = solve(Opt,x0)</p>
+<p class="Normal">And the solution is:</p>
+<p class="CodeIndent">
+x =<br />
+<br />
+498.8309<br />
+-0.1013</p>
+<p class="Normal">
+When both xdata and ydata are supplied the resulting fit can be plotted:</p>
+<p class="Normal">
+<img src="images/nls_plot.png" /></p>
+<p class="Heading2"><a name="Considerations">Considerations</a></p>
+<p class="Normal">As with <a href="uno.html">UNO</a> and <a href="nlp.html">NLP</a> problems, if the 
+constructor cannot determine the number decision variables in your problem (for 
+example all arguments are nonlinear functions), then you must supply this 
+explicitly to <a href="../../Functions/opti/optiprob.html#ndec">optiprob</a>.</p>
+<p class="Normal">Solving NLS problems can be computationally intensive and may 
+require more time to converge. However posing a curve fitting problem as a least 
+squares problem explicitly (i.e. as a NLS with an objective which returns a 
+vector) rather than a NLP (i.e. sum(f(x)^2) can avoid the requirement of second 
+derivatives as well as ensuring convergence in some algorithms, hence this is 
+typically the best option. A good starting guess will also substantially speed 
+up the algorithm.</p>
+<!-- #EndEditable -->
+
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<p class="Copyright">Copyright © 2011-2013 Jonathan Currie (I<sup>2</sup>C<sup>2</sup>) </p>
+
+</body>
+<!-- #EndTemplate -->
+</html>

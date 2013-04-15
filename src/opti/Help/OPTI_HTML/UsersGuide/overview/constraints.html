@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- #BeginTemplate "../../Templates/Opti_Normal.dwt" -->
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<!-- #BeginEditable "doctitle" -->
+<title>Constraint Forms</title>
+<style type="text/css">
+
+
+
+
+.auto-style1 {
+	text-align: center;
+}
+</style>
+<!-- #EndEditable -->
+<link href="../../Templates/Opti_Styles.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+<!-- #BeginEditable "MainTitle" -->
+
+<p class="Heading1">Constraint Forms</p>
+<!-- #EndEditable -->
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<!-- #BeginEditable "Body" -->
+<p class="Normal">Inequality and equality constraints can be specified in one of 
+two forms using OPTI.</p>
+<p class="Heading2">Linear Constraints</p>
+<table style="width: 100%">
+	<tr>
+		<td style="width: 116px">
+		<img alt="lin_row" height="69" src="images/lin_gen.png" width="119" /></td>
+		<td class="auto-style1" style="width: 37px">OR</td>
+		<td>
+		<img alt="lin_row" height="39" src="images/lin_row.png" width="129" /></td>
+	</tr>
+</table>
+<p class="Normal">The general form of specifying linear constraints in OPTI is 
+via individual matrices for inequalities and equalities (<strong>A</strong>,
+<strong>Aeq</strong>), and individual right hand side vectors (<strong>b</strong>,
+<strong>beq</strong>). An example via <span class="Code">
+<a href="../../Functions/opti/optiprob.html">optiprob</a></span> is shown below:</p>
+<p class="Code">optiprob(<span class="String">'ineq'</span>,A,b,<span class="String">'eq'</span>,Aeq,beq)</p>
+<p class="Normal">However a more efficient method is specifying all linear 
+constraints via one matrix, <strong>A</strong>, and two vectors (<strong>rl</strong>,
+<strong>ru</strong>) to describe bounds on each row of <strong>A</strong>. The 
+advantage is the ability to specify two inequalities on one line, one greater 
+than equal to, and the other less than or equal to. An example via
+<span class="Code"><a href="../../Functions/opti/optiprob.html">optiprob</a></span> 
+is shown below:</p>
+<p class="Code">optiprob(<span class="String">'lin'</span>,A,rl,ru)</p>
+<p class="Normal">To specify an equality constraint using the row method, simply 
+specify the corresponding element in both rl and ru to the equality value.</p>
+<p class="Normal">OPTI accepts either format, and will internally convert to the 
+format required by the solver being used. No overhead is required for either 
+form during solving so use the format that suits you best.</p>
+<p class="Heading2">Nonlinear Constraints</p>
+<table style="width: 100%">
+	<tr>
+		<td style="width: 135px">
+		<img alt="nl_row"  src="images/nl_gen.png"  /></td>
+		<td class="auto-style1" style="width: 37px">OR</td>
+		<td>
+		<img alt="nl_row"  src="images/nl_row.png"  /></td>
+	</tr>
+</table>
+<p class="Normal">The general form of specifying nonlinear constraints in OPTI 
+is via a single function for all nonlinear constraints (<strong>nlcon</strong>), 
+a vector of the right hand side (<strong>nlrhs</strong>) and a vector describing 
+each type of constraint (<strong>nle</strong>). Each element in nle corresponds 
+to a constraint type (-1 for &le;, 0&nbsp; for =, 1 for &ge;). An example via
+<span class="Code"><a href="../../Functions/opti/optiprob.html">optiprob</a> </span> 
+is shown below:</p>
+<p class="Code">optiprob(<span class="String">'nlmix'</span>,nlcon,nlrhs,nle)</p>
+<p class="Normal">However a more efficient method is specifying bounds on each 
+constraint row via two vectors (<strong>cl</strong>,
+<strong>cu</strong>). The 
+advantage is the ability to specify two inequalities on one line, one greater 
+than equal to, and the other less than or equal to. An example via
+<span class="Code"><a href="../../Functions/opti/optiprob.html">optiprob</a></span> 
+is shown below:</p>
+<p class="Code">optiprob(<span class="String">'nl'</span>,nlcon,cl,cu)</p>
+<p class="Normal">To specify an equality constraint using the row method, simply 
+specify the corresponding element in both cl and cu to the equality value.</p>
+<p class="Normal">OPTI accepts either format, and will internally convert to the 
+format required by the solver being used. Converting from general (mixed) form 
+to row form is a simple conversion, as is from row to general form with only 
+single bounds (each row contains only one inequality). Both of these situations 
+require no overhead during solving.</p>
+<p class="Normal">However if you specify your nonlinear constraints in row form 
+with dual bounds (two inequalities on one row) and OPTI is required to convert 
+it to general form the overhead is substantially increased. Not only will the 
+constraint function be modified, but also the Jacobian and Jacobian Structure 
+(if specified) to accommodate the extra row(s).</p>
+<!-- #EndEditable -->
+
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<p class="Copyright">Copyright © 2011-2013 Jonathan Currie (I<sup>2</sup>C<sup>2</sup>) </p>
+
+</body>
+<!-- #EndTemplate -->
+</html>

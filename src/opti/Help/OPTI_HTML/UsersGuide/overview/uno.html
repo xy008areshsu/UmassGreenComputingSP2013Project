@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- #BeginTemplate "../../Templates/Opti_Normal.dwt" -->
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<!-- #BeginEditable "doctitle" -->
+<title>Unconstrained Nonlinear Optimization</title>
+<!-- #EndEditable -->
+<link href="../../Templates/Opti_Styles.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+<!-- #BeginEditable "MainTitle" -->
+
+<p class="Heading1">Unconstrained Nonlinear Optimization (UNO)</p>
+<!-- #EndEditable -->
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<!-- #BeginEditable "Body" -->
+<p class="Heading2">Introduction</p>
+<p class="Normal">An unconstrained nonlinear problem has the following form:</p>
+<p class="Normal"><img src="images/uno.png"  /></p>
+<p class="Normal">Where <em>f</em> is a function containing the nonlinear 
+objective function.</p>
+<p class="Normal">The goal is to minimize the objective function by selecting a 
+value of <strong>x</strong>.</p>
+<p class="Heading2">Example Problem</p>
+<p class="Normal"><img height="47" src="images/uno_exa.png" width="288" /></p>
+<p class="Normal">The above function is the classic Rosenbrock banana function 
+which has a minimum at (1,1) with fval = 0. This should be written as a Matlab 
+function or anonymous function for use with the optimizer:</p>
+<p class="CodeIndent"><span class="Comment">% Objective Function</span><br />
+obj = @(x) (1 - x(1))^2 + 100*(x(2) - x(1)^2)^2;</p>
+<p class="Normal">This can be solved using the OPTI Toolbox as follows:</p>
+<p class="CodeIndent">
+<span class="Comment">% Build OPTI Problem</span><br />
+Opt = opti(<span class="String">&#39;obj'</span>,obj,<span class="String">'ndec'</span>,2)</p>
+<p class="CodeIndent">
+<span class="Comment">% Solve<br />
+</span><span class="Code">x0 = [0;0];</span><span class="Comment"><br />
+</span>x = solve(Opt,x0)</p>
+<p class="Normal">And the solution is:</p>
+<p class="CodeIndent">
+x =<br />
+<br />
+1.0000<br />
+1.0000</p>
+<p class="Normal">To better visualize the solution, this can be plotted as 
+follows:</p>
+<p class="CodeIndent">plot(Opt,[],1) <span class="Comment">%indicates to log 
+scale the objective contours</span></p>
+<p class="Normal">
+<img height="420" src="images/uno_plot.png" width="561" /></p>
+<p class="Heading2">Considerations</p>
+<p class="Normal">You must supply <span class="Code">ndec</span> to
+<span class="Code"><a href="../../Functions/opti/optiprob.html#ndec">optiprob</a></span> 
+in order for the <span class="Code">opti</span> constructor to determine the 
+number of variables (and perform error checking). Alternatively you may provide 
+an initial starting guess (<span class="Code">x0</span>) to <span class="Code">
+optiprob</span>, which will be used by <span class="Code">solve</span> as well. 
+However you may still try alternative starting guesses by supplying them 
+directly to <span class="Code">solve</span>, this is just a requirement for 
+building the problem.</p>
+<p class="Normal">While your problem may not have any constraints, it is 
+worthwhile to include at least bounds on the problem in order to both help the 
+solver, as well as keep the solution within the operating area of interest. 
+Therefore these problems are typically best posed as bounded <a href="nlp.html">NLP</a>s.</p>
+<!-- #EndEditable -->
+
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<p class="Copyright">Copyright © 2011-2013 Jonathan Currie (I<sup>2</sup>C<sup>2</sup>) </p>
+
+</body>
+<!-- #EndTemplate -->
+</html>

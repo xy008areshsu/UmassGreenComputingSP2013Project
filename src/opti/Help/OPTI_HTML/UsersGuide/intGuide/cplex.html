@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- #BeginTemplate "../../Templates/Opti_Normal.dwt" -->
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<!-- #BeginEditable "doctitle" -->
+<title>IBM ILOG CPLEX Installation Guid</title>
+<!-- #EndEditable -->
+<link href="../../Templates/Opti_Styles.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+<!-- #BeginEditable "MainTitle" -->
+
+<p class="Heading1">IBM ILOG CPLEX Installation Guide</p>
+<!-- #EndEditable -->
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<!-- #BeginEditable "Body" -->
+<p class="Normal">
+<a href="http://www-01.ibm.com/software/integration/optimization/cplex-optimization-studio/">
+CPLEX</a> is an industry standard linear and quadratic solver, with facilities 
+for discrete variables and quadratic constraints. This guide was written for 
+CPLEX v12.4.</p>
+<p class="Heading3">Obtaining CPLEX</p>
+<p class="NormalIndent">1) Visit the
+<a href="http://www-01.ibm.com/support/docview.wss?uid=swg21419058">IBM ILOG 
+Academic Initiative</a> page and register for the IBM Academic Initiative.<br />
+2) Visit the
+<a href="https://www.ibm.com/developerworks/university/software/get_software.html#download">
+IBM Get Software &amp; System Access</a> page and click on "Download from the 
+Software Catalog", you will need to have logged in to your new IBM account.<br />
+3) Enter "cplex" in the 'Find by Text' textbox. Under WebSphere Software, there 
+should be "IBM ILOG CPLEX Optimization Studio Academic Research Edition vxx.x". 
+Click on the latest version.<br />
+4) Select the tickbox of the relevant download (e.g. IBM ILOG CPLEX Optimization 
+Studio V12.5 for Windows x86-64 Multilingual), read 
+and agree to the terms and conditions and click "Download now".<br />
+</p>
+<p class="Heading3">Installing CPLEX</p>
+<p class="NormalIndent">6) Once the download has completed, click "Launch" from 
+the IBM Download Director and wait until the installation is complete. I install 
+to the default location.<br />
+</p>
+<p class="Heading3">Interfacing to OPTI Toolbox</p>
+<p class="NormalIndent">8) The final step is to add the CPLEX MATLAB Toolbox to 
+the MATLAB path. Start MATLAB and click File -&gt; Set Path<br />
+9) From the path tool, click Add with Subfolders and navigate to the 
+installation directory of CPLEX:</p>
+<p class="NormalIndent">
+<img alt="cplex_path" height="488" src="images/cplex_path.png" width="809" /></p>
+<p class="NormalIndent">If you installed in the default directory, you will 
+selecting the following path (and all subfolders) to install (modify as 
+appropriate on your system):</p>
+<p class="NormalIndent">C:\Program 
+Files\IBM\ILOG\CPLEX_Studio125\cplex\matlab\x64_win64</p>
+<p class="NormalIndent">Note if you have downloaded the 32bit version, your path 
+may be slightly different (e,.g. x86_win32).</p>
+<p class="NormalIndent">10) Click OK and type the following at the MATLAB 
+command line to ensure everything is working!</p>
+<p class="CodeIndent">&gt;&gt; Cplex</p>
+<!-- #EndEditable -->
+
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<p class="Copyright">Copyright © 2011-2013 Jonathan Currie (I<sup>2</sup>C<sup>2</sup>) </p>
+
+</body>
+<!-- #EndTemplate -->
+</html>

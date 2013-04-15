@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- #BeginTemplate "../../Templates/Opti_Normal.dwt" -->
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<!-- #BeginEditable "doctitle" -->
+<title>AMPL Interfacing</title>
+<!-- #EndEditable -->
+<link href="../../Templates/Opti_Styles.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+<!-- #BeginEditable "MainTitle" -->
+
+<p class="Heading1">AMPL Interfacing</p>
+<!-- #EndEditable -->
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<!-- #BeginEditable "Body" -->
+<p class="Normal"><span class="Heading2">Introduction</span></p>
+<p class="Normal"><a href="http://www.ampl.com/" target="_blank">AMPL</a> (A 
+Modeling Language for Mathematical Programming) is a modeling language that can 
+be used to describe complex optimization problems ranging from linear to 
+nonlinear including continuous and discrete variables. It is a widely used 
+format, with over 59% of submissions to <a href="http://neos-server.org/neos/">
+NEOS</a> in January 2011 being in AMPL format (<a href="http://www.gams.com/">GAMS</a> 
+was second with 29.7%). Therefore while Matlab provides it&#39;s own powerful 
+modeling language, it was important to be able to incorporate existing models 
+from AMPL into OPTI.</p>
+<p class="Heading2">Users with AMPL</p>
+<p class="Normal">From OPTI Toolbox v1.76 users who have AMPL already installed 
+on their PC (and on the MATLAB path) can use
+<a class="Code" href="../../Functions/optiutil/amplRead.html">amplRead</a> 
+directly on a .mod file, without having to following the conversion steps below. 
+OPTI will automatically call the AMPL executable and perform the conversion, 
+before reading the .nl, as below. See the documentation provided by
+<span class="Code">amplRead()</span> above for more information.</p>
+<p class="Heading2">Typical Use</p>
+<p class="Normal">While most existing AMPL users will be familiar with the 
+operation of AMPL, there will be some who need a quick overview. While AMPL is a 
+modeling language, it is also an application front end to a range of solvers 
+(much like OPTI). A notable feature however is the AMPL presolve which attempts 
+to simplify the model prior to passing it to the solver. To use AMPL, one can 
+obtain the free <a href="http://www.ampl.com/DOWNLOADS/index.html">student 
+version</a>, however this is limited to 500 variables and 500 constraints. For 
+larger problems you will need to purchase the
+<a href="http://www.ampl.com/vendors.html">professional version</a>.</p>
+<p class="Normal">A typical AMPL run consists of either running it from command 
+window (i.e. DOS) or from the
+<a href="http://www.ampl.com/DOWNLOADS/details.html#Scrolling">scrolling window 
+utility</a> which is available for free. I prefer the command window version as 
+I am more familiar with it this way. In order to run AMPL, complete the 
+following steps (assuming you have downloaded AMPL and it is on your PC):</p>
+<p class="Normal">1) Open the command window</p>
+<p class="NormalIndent">Click on the start button and under All Programs -&gt; 
+Accessories click on Command Prompt. Alternatively you can type &quot;cmd&quot; into the 
+search bar at the bottom of the start menu.</p>
+<p class="NormalIndent">
+<img alt="cmd" height="624" src="Images/cmd.png" width="404" /></p>
+<p class="Normal">2) Change the current directory to the AMPL directory</p>
+<p class="NormalIndent">Unless the AMPL executable (ampl.exe) is on your 
+system&#39;s path (you would have added it manually) you will need to change the 
+current directory to the location of ampl.exe. Type &quot;cd x&quot; where x is the full 
+path to the ampl executable.</p>
+<p class="NormalIndent">
+<img alt="cd" height="342" src="Images/cd.png" width="677" /></p>
+<p class="Normal">3) Start AMPL</p>
+<p class="NormalIndent">AMPL can be started by typing &quot;ampl&quot; into the command 
+window. The AMPL parser will then accept commands directly from the command 
+window:</p>
+<p class="NormalIndent">
+<img alt="ampl" height="342" src="Images/ampl.png" width="677" /></p>
+<p class="Normal">4) Loading a Model and Data</p>
+<p class="NormalIndent">AMPL is supplied with several example models in the 
+MODELS folder. To load a model and data set, type the following:</p>
+<p class="NormalIndent">
+<img alt="model" height="342" src="Images/model.png" width="677" /></p>
+<p class="Normal">5) Selecting the solver and solving the model</p>
+<p class="NormalIndent">Selecting a solver is simple, and so is solving it:</p>
+<p class="NormalIndent">
+<img alt="solve" height="342" src="Images/solve.png" width="677" /></p>
+<p class="NormalIndent">You can also display the decision variables using the 
+display command, and the name of the variable (check the original .mod file):</p>
+<p class="NormalIndent">
+<img alt="display" height="342" src="Images/display.png" width="677" /></p>
+<p class="NormalIndent">
+There is a lot more to AMPL than the above brief overview but shows the general 
+functionality. If you are interested in learning more about AMPL and it's 
+language I suggest you get the <a href="http://www.ampl.com/BOOK/">AMPL book</a>.</p>
+<p class="Heading2">Generating a .NL file for use with OPTI</p>
+<p class="Normal">You would have noted the model loaded by AMPL in the above 
+example was called diet.mod. If you open this file you will see this is a 
+succinct definition of the problem written in AMPL, with the respective dataset 
+contained in diet.dat. However this file is not used directly by any solver, and 
+is in fact parsed to a .NL file internally by AMPL before being passed to a solver. This 
+allows AMPL to perform the presolve + reordering and other algorithm tricks in 
+order to best solve the problem. While this process happens behind the scenes, 
+we can tell AMPL to generate us a .NL file which can be read by OPTI using the 
+following command:</p>
+<p class="NormalIndent">ampl -og(1) (2) (3) (4)</p>
+<p class="Normal">Where (1) is the output file name, (2) is the model .mod file, 
+(3) is the optional data .dat file, and (4) is the optional options file. Note 
+AMPL is <strong>not</strong> open at this point, and is called as part of the 
+command!</p>
+<p class="Normal"><img alt="nl" height="354" src="Images/nl.png" width="677" /></p>
+<p class="Normal">If you have a look at the generated diet.nl file it is quite unintelligible 
+to us, however it makes for easy parsing by the
+<a href="http://www.netlib.org/ampl/solvers/">AMPL Solver Library</a>, which is 
+free code from Netlib written by the creators of AMPL to allow users to connect 
+their own solvers to the AMPL engine. This library has been implemented as a MEX 
+function in <a href="../../Functions/optiutil/amplRead.html" class="Code">amplRead</a> in 
+OPTI allowing us to read in the .NL file and solve just about any AMPL problem! 
+Simply generate a .NL file for any AMPL model you wish to solve using the above 
+step, and open it using <span class="Code">amplRead</span><span class="Normal"> 
+to create an </span><span class="Code">
+<a href="../../Functions/opti/optiprob.html">optiprob</a></span><span class="Normal"> 
+structure</span><span class="Code">.</span></p>
+<!-- #EndEditable -->
+
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<p class="Copyright">Copyright © 2011-2013 Jonathan Currie (I<sup>2</sup>C<sup>2</sup>) </p>
+
+</body>
+<!-- #EndTemplate -->
+</html>

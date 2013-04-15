@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- #BeginTemplate "../../Templates/Opti_Normal.dwt" -->
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<!-- #BeginEditable "doctitle" -->
+<title>Linear Program</title>
+<style type="text/css">
+
+
+
+
+
+
+
+.auto-style1 {
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	text-align: left;
+}
+</style>
+<!-- #EndEditable -->
+<link href="../../Templates/Opti_Styles.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+<!-- #BeginEditable "MainTitle" -->
+
+<p class="Heading1">Linear Program (LP)</p>
+<!-- #EndEditable -->
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<!-- #BeginEditable "Body" -->
+<p class="Heading2">Introduction</p>
+<p class="Normal">A linear program has the following form:</p>
+<p class="Normal"><img height="126" src="images/lp.png" width="216" /></p>
+<p class="Normal">Where <strong>f</strong> is a <em>n </em>x <em>1 </em>vector 
+containing the linear objective function, which is subject to the following 
+constraints:</p>
+<p class="Normal"><span class="Heading3">Linear Inequalities*</span><strong><br />
+A </strong>is a <em>m x n </em>
+sparse matrix, <strong>b</strong> is a <em>m x 1</em> vector</p>
+<p class="Normal"><span class="Heading3">Linear Equalities*</span><br />
+<strong>A</strong><sub>eq</sub> is a <em>k x n</em> sparse matrix, <strong>b</strong><sub>eq</sub>
+is a <em>k x 1 </em>vector</p>
+<p class="auto-style1"><span class="Heading3">Decision Variable Bounds</span><br />
+<strong>l</strong><sub>b</sub> and <strong>u</strong><sub>b</sub> are <em>n x 1</em> vectors, 
+where <em>-inf</em> or <em>inf</em> indicate an unbounded lower or upper bound, respectively</p>
+<p class="Normal">The goal is to minimize the objective function by selecting a 
+value of <strong>x</strong> that also satisfies all constraints.</p>
+<p class="Copyright">*Your problem description will either use Linear 
+Inequalties and Linear Equalities OR Linear Row Constraints. See the
+<a href="constraints.html">constraint information page</a>.</p>
+<p class="Heading2">Example Problem<sup>[2]</sup></p>
+<p class="Normal">You have $12000 to invest and three different funds from 
+which to choose. The municipal bond fund has a 7% return, the local bank CDs 
+have an 8% return, and the high risk account has an expected 12% return. To 
+minimize risk you decide to not invest any more than $2000 in the high risk 
+account. Also, for tax reasons you need to invest at least three times as much 
+in the municipal bonds as in the bank CDs. Assuming year end returns are as 
+expected, what are the optimal investment amounts?</p>
+<p class="Normal">Write the equations assuming x = municipal bond investment, 
+y = local bank CDs investment and z = high risk investment</p>
+<p class="Normal">The objective function is to maximize the return, thus we 
+negate our objective:</p>
+<p class="Normal"><img  src="images/lp_ex1a.png" /></p>
+<p class="Normal">Next write the equations for the constraints:</p>
+<p class="Normal"><img height="142" src="images/lp_ex1b.png" width="174" /></p>
+<p class="Normal">The objective and constraints can now be written in standard 
+form:</p>
+<p class="Normal"><img src="images/lp_ex1c.png" /></p>
+<p class="Normal">This can be solved using the OPTI Toolbox as follows:</p>
+<p class="CodeIndent">
+<span class="Comment">% Objective</span><br />
+f = -[0.07;0.08;0.12];<br />
+<span class="Comment">% Constraints</span><br />
+A = [-1/3 1 0; 0 0 1];<br />
+b = [0; 2000];<br />
+Aeq = [1 1 1];<br />
+beq = 12000;<br />
+lb = [0;0;0];</p>
+<p class="CodeIndent">
+<span class="Comment">% Build OPTI Problem</span><br />
+Opt = opti(<span class="String">'f'</span>,f,<span class="String">'ineq'</span>,A,b,<span class="String">'eq'</span>,Aeq,beq,<span class="String">'lb'</span>,lb)</p>
+<p class="CodeIndent">
+<span class="Comment">% Solve<br />
+</span>x = solve(Opt)</p>
+<p class="Normal">And the solution is:</p>
+<p class="CodeIndent">
+x =<br />
+<br />
+7500<br />
+2500<br />
+2000</p>
+<p class="Normal">Note this problem can also be solved as a system with only two 
+variables, see the original reference for details.</p>
+<p class="Heading2">Considerations</p>
+<p class="Normal">Normally a large scale LP will consist of hundreds of decision 
+variables (<strong>x</strong>) and thousands of constraints contained within the 
+typically sparse <strong>A</strong> and
+<strong>A</strong><sub>eq</sub>.</p>
+<!-- #EndEditable -->
+
+<table class="TableBreakLine"><tr><td></td></tr></table>
+<p class="Copyright">Copyright © 2011-2013 Jonathan Currie (I<sup>2</sup>C<sup>2</sup>) </p>
+
+</body>
+<!-- #EndTemplate -->
+</html>
