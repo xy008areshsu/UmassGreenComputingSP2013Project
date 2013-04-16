@@ -19,8 +19,6 @@
 %   NetGreen_t: amount of green power to be used in net metering 
 %   Grid_t: amount of grid power to be used for any purpose
 %   bin_t: ensure mutual exclusive
-%   preemptibleLoadsSchedule
-%   nonPreemptibleLoadsSchedule
 
 clear ; close all;clc
 
@@ -370,12 +368,11 @@ cost = cost / 100;     % convert from cents to dollars
 %% =======================Plot Results and Write to File===================
 nonDerPrice = sum(nonDeferLoad.*GridCost) / 100;
 ACPrice = sum(preemptibleLoads(1, 4) / 8 * GridCost(16:24)) / 100;
-refregeratorPower = preemptibleLoads(2, 4)/period * ones(T, 1);
-refregeratorPrice = sum(refregeratorPower .* GridCost) / 100;
-originalPrice = nonDerPrice + ACPrice + refregeratorPrice;
+refregeratorPrice = preemptibleLoads(2, 4)/period * ones(T/preemptibleLoads(2,2), 1)
+originalPrice = sum(nonDeferLoad.*GridCost) / 100 + sum(56 / 8 * GridCost(16:24)) / 100;
 fprintf('The Electricity Bill without Smart Charge per Day is: $%f\n', originalPrice);
 fprintf('The Electricity Bill with Smart Charge Solar-Battery per Day is: $%f\n', cost);
 fprintf('Total cost reduction is: %f%%\n', (originalPrice - cost) / originalPrice * 100);
 
-scheduleSolarBattDefer = [BattGreen, BattGrid, LoadBatt, LoadGrid, Grid, LoadGreen, NetGreen, nonDeferLoad, preemptibleLoadsSchedule];
-csvwrite('scheduleSolarBattDefer.csv', scheduleSolarBattDefer);
+scheduleSolarBatt = [BattGreen, BattGrid, LoadBatt, LoadGrid, Grid, LoadGreen, NetGreen, nonDeferLoad];
+csvwrite('scheduleSolarBatt.csv', scheduleSolarBatt);
