@@ -20,7 +20,7 @@
 %   Grid_t: amount of grid power to be used for any purpose
 %   bin_t: ensure mutual exclusive
 
-clear ; close all;clc
+
 
 %% ==================== Parameters Initialization =========================
 % number of time intervals
@@ -50,6 +50,28 @@ Green = [0; 0; 0; 0; 0; 0; 0.1; 0.2; 0.8; 1.2; 2.0; 2.5; 2.7; 3.2; 3.0;
 alpha = 0.4;
 
 infVal = 10;
+
+% DeferableLoads Pattern, pre or nonPreemptible
+deferableLoads;
+
+% Assume only one non preemptible job for now, dishwahser
+job = dishWasher;
+deadline = job(1);
+period = job(2);
+execTime = job(3);
+powerPerCycle = job(4);
+
+% Merge AC, refregerator, dishwahser into Non deferable Loads
+ACPower = zeros(T, 1);
+refregPower = zeros(T, 1);
+dishwashserPower = zeros(T, 1);
+% Assume all deferable loads are spreaded evenly in their cycles
+ACPower(16:24) = ACCentral(4) / ACCentral(2);
+refregPower(1:24) = refregerator(4) / refregerator(2);
+% Assume dishwahser is working at 8 to 10pm
+dishwashserPower(17: 17 + execTime - 1) = powerPerCycle / execTime;
+Load = Load + ACPower + refregPower + dishwashserPower;
+
 %% ===========================Separate Bounds==============================
 
 % lowerBounds(:, 1) = BattGreen;  0
@@ -291,9 +313,10 @@ clear i;
 % Indices of x which are considered to be integers, here bin_t should be
 % integers either 0 or 1, and bin_t is in indices from 7*T + 1 to 8*T
 xtype = 7 * T + 1 : 8 * T;  
-% Opt = opti('f', f, 'ineq', A, b, 'eq', Aeq, beq, 'bounds', lowerBounds, upperBounds, 'xtype', xtype);
-% [x,cost,exitflag,info] = solve(Opt)
-[x cost] = MILP(f, A, b, Aeq, beq, lowerBounds, upperBounds, xtype, 0.01);
+Opt = opti('f', f, 'ineq', A, b, 'eq', Aeq, beq, 'bounds', lowerBounds, upperBounds, 'xtype', xtype);
+[x,cost,exitflag,info] = solve(Opt);
+info
+%[x cost] = MILP(f, A, b, Aeq, beq, lowerBounds, upperBounds, xtype, 0.01);
 BattGreen = reshape(x(1 : T), T, 1);
 BattGrid = reshape(x(T + 1: 2 * T), T, 1);
 LoadBatt = reshape(x(2 * T + 1 : 3 * T), T, 1);
@@ -306,9 +329,9 @@ cost = cost / 100;     % convert from cents to dollars
 
 %% =======================Plot Results and Write to File===================
 originalPrice = sum(Load.*GridCost) / 100;
-fprintf('The Electricity Bill without Smart Charge per Day is: $%f\n', originalPrice);
-fprintf('The Electricity Bill with Smart Charge Solar-Battery per Day is: $%f\n', cost);
+fprintf('The Electricity Bill orginally per Day is: $%f\n', originalPrice);
+fprintf('The Electricity Bill with LP Solar-Battery per Day is: $%f\n', cost);
 fprintf('Total cost reduction is: %f%%\n', (originalPrice - cost) / originalPrice * 100);
-
-scheduleSolarBatt = [BattGreen, BattGrid, LoadBatt, LoadGrid, Grid, LoadGreen, NetGreen, Load];
+costReductArr = ones(T, 1) * ((originalPrice - cost) / originalPrice * 100);
+scheduleSolarBatt = [BattGreen, BattGrid, LoadBatt, LoadGrid, Grid, LoadGreen, NetGreen, Load, costReductArr];
 csvwrite('scheduleSolarBatt.csv', scheduleSolarBatt);

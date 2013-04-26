@@ -1,7 +1,7 @@
 %% Green Computing Project: Energy Efficiency in Smart Homes
 % This is the simple case
 
-clear ; close all; 
+ 
 
 % x(1) = s, x(2) = d, x(3) = p
 
@@ -19,6 +19,27 @@ T = 24;
 % There should be predicted power consumption for each time interval using
 % ML techniques, which is missing here
 Load = hardCodedPower('./data/2012-Jul-30.csv', T);
+
+% DeferableLoads Pattern, pre or nonPreemptible
+deferableLoads;
+
+% Assume only one non preemptible job for now, dishwahser
+job = dishWasher;
+deadline = job(1);
+period = job(2);
+execTime = job(3);
+powerPerCycle = job(4);
+
+% Merge AC, refregerator, dishwahser into Non deferable Loads
+ACPower = zeros(T, 1);
+refregPower = zeros(T, 1);
+dishwashserPower = zeros(T, 1);
+% Assume all deferable loads are spreaded evenly in their cycles
+ACPower(16:24) = ACCentral(4) / ACCentral(2);
+refregPower(1:24) = refregerator(4) / refregerator(2);
+% Assume dishwahser is working at 8 to 10pm
+dishwashserPower(17: 17 + execTime - 1) = powerPerCycle / execTime;
+Load = Load + ACPower + refregPower + dishwashserPower;
 
 % battery charging efficiency
 e = 0.855;  
@@ -113,11 +134,13 @@ p = reshape(x(2 * T + 1 : 3 * T), T, 1);
 cost = cost / 100;     % convert from cents to dollars
 
 %% =======================Plot Results and Write to File===================
+
 originalPrice = sum(Load.*c) / 100;
-fprintf('The Electricity Bill without Smart Charge per Day is: $%f\n', originalPrice);
-fprintf('The Electricity Bill with Smart Charge Batterty-Only per day is: $%f\n', cost);
+fprintf('The Electricity Bill originally per Day is: $%f\n', originalPrice);
+fprintf('The Electricity Bill with LP Batterty-Only per day is: $%f\n', cost);
 fprintf('Total cost reduction is: %f%%\n', (originalPrice - cost) / originalPrice * 100);
-scheduleBattOnly = [s, d, p, Load];
+costReductArr = ones(T, 1) * ((originalPrice - cost) / originalPrice * 100);
+scheduleBattOnly = [s, d, p, Load, costReductArr];
 csvwrite('scheduleBattOnly.csv', scheduleBattOnly);
 
 %plotData;

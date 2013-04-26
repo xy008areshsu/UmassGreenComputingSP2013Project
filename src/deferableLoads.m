@@ -6,9 +6,10 @@
 ACCentral = [24, 24, 8, 56];
 refregerator = [2, 2, 1, 0.36];
 
-dishWasher = [24, 24, 2, 4];
+dishWasher = [24, 24, 2, neededPower];
 clothesWasher = [24, 24, 0.8, 7];
 clothesDryer = [24, 24, 1.5, 5];
+%hahaha = [24, 3, 1.5, 5];
 
 nonPreemptibleLoads = [dishWasher; clothesWasher; clothesDryer];
 preemptibleLoads = [ACCentral; refregerator];
