@@ -1,2 +1,0 @@
-SwitchName,TimestampUTC,MaxRealPowerWatts,DimProportion,CircuitNumber
-Current real power can be closely approximated by MaxRealPowerWatts * DimProportion.
