@@ -36,7 +36,7 @@ refregPower = zeros(T, 1);
 dishwashserPower = zeros(T, 1);
 % Assume all deferable loads are spreaded evenly in their cycles
 ACPower(16:24) = ACCentral(4) / ACCentral(2);
-refregPower(1:24) = refregerator(4) / refregerator(2);
+%refregPower(1:24) = refregerator(4) / refregerator(2);
 % Assume dishwahser is working at 8 to 10pm
 dishwashserPower(17: 17 + execTime - 1) = powerPerCycle / execTime;
 Load = Load + ACPower + refregPower + dishwashserPower;
