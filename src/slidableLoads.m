@@ -1,0 +1,1 @@
+clothesDryer = [24, 24, 2, 5];

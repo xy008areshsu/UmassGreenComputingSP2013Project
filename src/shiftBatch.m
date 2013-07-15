@@ -43,6 +43,6 @@ ylabel('Cost Reduction (%) ');
 grid
 set(gcf, 'PaperPosition', [0 0 5 5]); %Position plot at left hand corner with width 5 and height 5.
 set(gcf, 'PaperSize', [5 5]); %Set the paper to have width 5 and height 5.
-saveas(gcf, '../simResults/shiftBenifit', 'pdf') %Save figure
+saveas(gcf, '../simResults/shiftBenefit', 'pdf') %Save figure
 
 csvwrite('../simResults/shiftSimResults.csv', shiftSimResultData);
